@@ -1,0 +1,5 @@
+IP: 158.160.70.151;
+name_taski: https://onevit.ddns.net/;
+name_kittygram: https://telega.sytes.net/;
+login: admin;
+password: zaqwsx11;
