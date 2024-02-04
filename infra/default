@@ -1,1 +1,93 @@
-/etc/nginx/sites-available/default
+server {
+    server_name 158.160.70.151 onevit.ddns.net;
+    #server_name onevit.ddns.net;
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    # Новый блок.
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    location / {
+        root   /var/www/taski;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    location /sentry-debug/ {
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/onevit.ddns.net/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/onevit.ddns.net/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+ server {
+    if ($host = onevit.ddns.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+
+    listen 80;
+    server_name 158.160.70.151 onevit.ddns.net;
+    return 404; # managed by Certbot
+
+
+}
+
+ server {
+    server_name 158.160.70.151 telega.sytes.net;
+    #server_name telega.sytes.net;
+    location /api/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 100M;
+    }
+
+    location /admin/ {
+        proxy_pass http://127.0.0.1:8080;
+        client_max_body_size 100M;
+    }
+
+    location /media/ {
+    alias /var/www/kittygram/media/;
+    }
+
+    location / {
+        root   /var/www/kittygram;
+        index  index.html index.htm;
+        try_files $uri /index.html;
+    }
+
+    location /static_backend/ {
+        alias /var/www/kittygram/static_backend/;
+    }
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/telega.sytes.net/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/telega.sytes.net/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+ server {
+    if ($host = telega.sytes.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name 158.160.70.151 telega.sytes.net;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
