@@ -6,7 +6,17 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('TOKEN')
+m = os.getenv('TOKEN')
+default = 123
+
+def secret()
+    if m is None:
+        m = default
+    else:
+        m = os.getenv('TOKEN')
+    return  m
+
+SECRET_KEY =  m
 
 DEBUG = False
 
